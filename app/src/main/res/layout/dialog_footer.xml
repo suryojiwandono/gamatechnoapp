@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_left"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_dialog_black_left"
+            android:text="@string/button_no" />
+
+        <Button
+            android:id="@+id/button_middle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_dialog_black_middle"
+            android:text="@string/button_close" />
+
+        <Button
+            android:id="@+id/button_right"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_dialog_black_right"
+            android:text="@string/button_yes" />
+</LinearLayout>

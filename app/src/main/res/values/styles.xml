@@ -1,0 +1,51 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:buttonStyle">@style/button</item>
+        <item name="buttonStyle">@style/button</item>
+        <item name="editTextStyle">@style/editText</item>
+    </style>
+
+
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="button" parent="android:Widget.Button">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">15dp</item>
+        <item name="android:background">@drawable/bg_button</item>
+    </style>
+
+    <style name="editText" parent="android:Widget.EditText">
+        <item name="android:textSize">@dimen/text_default</item>
+        <!--<item name="android:height">100dp</item>-->
+        <item name="android:paddingTop">@dimen/padding_text_input_layout_top</item>
+        <item name="android:paddingBottom">@dimen/padding_text_input_layout_bottom</item>
+        <item name="android:paddingRight">@dimen/padding_text_input_layout_right</item>
+        <item name="android:paddingLeft">@dimen/padding_text_input_layout_left</item>
+        <!--<item name="android:padding">12sp</item>-->
+        <!--<item name="android:gravity">center_vertical</item>-->
+        <!--<item name="android:textColor">@color/black</item>-->
+        <item name="android:background">@drawable/bg_edittext_layout_top</item>
+    </style>
+
+    <style name="text_layout" parent="Widget.Design.TextInputLayout">
+        <item name="android:textColorHint">@color/text_hint</item>
+        <item name="android:textSize">@dimen/text_default</item>
+        <item name="hintTextAppearance">@style/TextLabelHint</item>
+    </style>
+
+    <style name="TextLabelHint" parent="Widget.Design.TextInputLayout">
+        <item name="android:textColor">@color/text_hint</item>
+        <!--<item name="android:textColorHint">@color/text_label</item>-->
+        <item name="android:textSize">@dimen/text_default</item>
+    </style>
+</resources>

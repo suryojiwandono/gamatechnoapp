@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">GamatechnoApp</string>
+
+    <string name="dialog_message_sync_success">SYNCHRONIZE SUCCESS</string>
+    <string name="dialog_message_sync_failed">SYNCHRONIZE FAILED</string>
+    <string name="dialog_message_sync_error">SYNCHRONIZE ERROR</string>
+    <string name="dialog_message_sync_ws_error">WEB SERVICE ERROR</string>
+    <string name="dialog_message_sync_db_error">INSERTING DATABASE ERROR</string>
+    <string name="dialog_message_login_user_not_found">USERNAME NOT FOUND</string>
+
+    <string name="label_loader_authentication">Authenticating</string>
+
+    <string name="button_close">CLOSE</string>
+    <string name="button_ok">OK</string>
+    <string name="button_no">NO</string>
+    <string name="button_yes">YES</string>
+    <string name="button_cancel">CANCEL</string>
+    <string name="button_delete">DELETE</string>
+    <string name="button_edit">EDIT</string>
+
+
+    <string name="hint_username">USERNAME</string>
+    <string name="hint_password">PASSWORD</string>
+    <string name="button_login">LOG IN</string>
+
+    <string name="textview_no_data">NO DATA</string>
+</resources>

@@ -1,0 +1,33 @@
+<resources>
+    <!-- Constants screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="margin_top_dialog">30sp</dimen>
+    <dimen name="margin_top">10sp</dimen>
+    <dimen name="margin_top_2">20sp</dimen>
+    <dimen name="margin_bottom">70sp</dimen>
+
+    <dimen name="padding_box_login">30sp</dimen>
+    <dimen name="padding_box">20sp</dimen>
+    <dimen name="padding_box_list">10sp</dimen>
+    <dimen name="padding_box_button">10sp</dimen>
+    <dimen name="padding_box_sub">10sp</dimen>
+
+    <dimen name="text_default_message">16sp</dimen>
+    <dimen name="text_default">12sp</dimen>
+    <dimen name="text_default_first">20sp</dimen>
+    <dimen name="text_default_second">11sp</dimen>
+
+    <dimen name="radius_dialog">15sp</dimen>
+    <dimen name="radius_dialog_button">14sp</dimen>
+
+
+    <dimen name="padding_text_input_layout">15sp</dimen>
+    <dimen name="padding_text_input_layout_top">30sp</dimen>
+    <dimen name="padding_text_input_layout_bottom">20sp</dimen>
+    <dimen name="padding_text_input_layout_right">12dp</dimen>
+    <dimen name="padding_text_input_layout_left">12dp</dimen>
+
+    <dimen name="radius_button">5sp</dimen>
+</resources>

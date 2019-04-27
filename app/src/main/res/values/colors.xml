@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#838383</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="white">#fff</color>
+    <color name="red">#c45656</color>
+    <color name="blue">#487dab</color>
+    <color name="green">#66a942</color>
+    <color name="notif">#66a942</color>
+    <color name="black">#6F6F6F</color>
+
+
+    <color name="text_login">#212121</color>
+    <color name="text_hint">#747474</color>
+
+
+    <color name="button_press">#686868</color>
+    <color name="button_disable">#797979</color>
+    <color name="button">#212121</color>
+    <color name="border_edit">#212121</color>
+    <color name="chat_own">#afe1d8</color>
+    <color name="chat_others">#EBEBEB</color>
+</resources>
