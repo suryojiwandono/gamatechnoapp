@@ -46,10 +46,11 @@ public class WSConversation {
 
             @Override
             public void onSuccess(WSResponseDataConversation wsResponseDataConversation) {
-                onActionDataConversationListener.onSuccess(wsResponseDataConversation);
                 try {
-                    dialogLoader.dismiss();
-                    new AsyncUserDataConversation(activity, dialogLoader, output -> dialogLoader.dismiss()).execute(wsResponseDataConversation);
+                    new AsyncUserDataConversation(activity, dialogLoader, output -> {
+                        onActionDataConversationListener.onSuccess(wsResponseDataConversation);
+                        dialogLoader.dismiss();
+                    }).execute(wsResponseDataConversation);
                     isSyncSuccess = true;
                 } catch (Exception e) {
                     dialogMessage("Users", activity.getResources().getString(R.string.dialog_message_sync_db_error), e.getMessage());
@@ -59,6 +60,7 @@ public class WSConversation {
 
             @Override
             public void onFailed(WSResponseDataConversation wsResponseDataConversation) {
+                onActionDataConversationListener.onSuccess(wsResponseDataConversation);
 //                dialogMessage("Users", wsResponseData.result.message == null ? "-" : wsResponseData.result.message, null);
             }
 

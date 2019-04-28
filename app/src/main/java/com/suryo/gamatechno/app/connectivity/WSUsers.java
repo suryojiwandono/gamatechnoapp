@@ -46,9 +46,11 @@ public class WSUsers {
 
             @Override
             public void onSuccess(WSResponseDataUser wsResponseDataUser) {
-                onActionDataUserListener.onSuccess(wsResponseDataUser);
                 try {
-                    new AsyncUserData(activity, dialogLoader, output -> dialogLoader.dismiss()).execute(wsResponseDataUser);
+                    new AsyncUserData(activity, dialogLoader, output -> {
+                        onActionDataUserListener.onSuccess(wsResponseDataUser);
+                        dialogLoader.dismiss();
+                    }).execute(wsResponseDataUser);
                     isSyncSuccess = true;
                 } catch (Exception e) {
                     dialogMessage("Users", activity.getResources().getString(R.string.dialog_message_sync_db_error), e.getMessage());
@@ -58,6 +60,7 @@ public class WSUsers {
 
             @Override
             public void onFailed(WSResponseDataUser wsResponseDataConversation) {
+                onActionDataUserListener.onSuccess(wsResponseDataConversation);
                 dialogMessage("Users", wsResponseDataConversation.result.message == null ? "-" : wsResponseDataConversation.result.message, null);
             }
 

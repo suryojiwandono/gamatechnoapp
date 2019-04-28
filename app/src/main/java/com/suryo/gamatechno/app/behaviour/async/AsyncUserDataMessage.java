@@ -11,6 +11,7 @@ import com.suryo.gamatechno.app.model.Message;
 import com.suryo.gamatechno.app.model.TConversation;
 import com.suryo.gamatechno.app.model.WSResponseDataConversation;
 import com.suryo.gamatechno.app.model.WSResponseDataMessage;
+import com.suryo.gamatechno.app.others.Utility;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class AsyncUserDataMessage extends AsyncTask<Object, Object, Object> {
         WSResponseDataMessage wsResponseDataUser = (WSResponseDataMessage) params[0];
         List<Message> mUsers = wsResponseDataUser.result.data.messages;
         MessageHelper mUserHelper = new MessageHelper();
-        mUserHelper.delete();
+//        mUserHelper.delete();
         for (Message mUser : mUsers) mUserHelper.save(mUser);
         return null;
     }

@@ -31,8 +31,7 @@ public class AsyncUserDataConversation extends AsyncTask<Object, Object, Object>
         WSResponseDataConversation wsResponseDataUser = (WSResponseDataConversation) params[0];
         List<TConversation> mUsers = wsResponseDataUser.result.data.tConversations;
         ConversationHelper mUserHelper = new ConversationHelper();
-        mUserHelper.delete();
-        Utility.Logs.v(mUsers.size()+"==============<:");
+//        mUserHelper.delete();
         for (TConversation mUser : mUsers) mUserHelper.save(mUser);
         return null;
     }

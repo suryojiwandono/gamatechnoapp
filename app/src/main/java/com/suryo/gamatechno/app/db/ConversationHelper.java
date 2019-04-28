@@ -10,6 +10,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class ConversationHelper {
 
@@ -36,7 +37,11 @@ public class ConversationHelper {
 
 
     public List<TConversation> getAll() {
-        return mRealm.where(TConversation.class).findAll();
+        return mRealm.where(TConversation.class).findAll().sort("timestamp", Sort.DESCENDING);
+    }
+
+    public TConversation getUser(String userId) {
+        return mRealm.where(TConversation.class).equalTo("userId", userId).findFirst();
     }
 
     public TConversation getUserLogin() {

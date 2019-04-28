@@ -10,6 +10,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class MessageHelper {
 
@@ -27,7 +28,7 @@ public class MessageHelper {
     public void save(final Message userLogin) {
         mRealm.executeTransaction(realm -> {
             if (realm != null) {
-                Message model = realm.copyToRealm(userLogin);
+                Message model = realm.copyToRealmOrUpdate(userLogin);
             } else {
                 Utility.Logs.e("execute: Database not Exist");
             }
@@ -35,8 +36,10 @@ public class MessageHelper {
     }
 
 
-    public List<Message> getAll() {
-        return mRealm.where(Message.class).findAll();
+    public List<Message> getAll(String toUserId) {
+        return mRealm.where(Message.class)
+                .equalTo("toUserId", toUserId)
+                .findAll().sort("timestamp", Sort.ASCENDING);
     }
 
     public Message getUserLogin() {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GamatechnoApp</string>
+    <string name="app_name">Gamatechno</string>
 
     <string name="dialog_message_sync_success">SYNCHRONIZE SUCCESS</string>
     <string name="dialog_message_sync_failed">SYNCHRONIZE FAILED</string>

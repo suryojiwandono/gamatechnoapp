@@ -33,8 +33,6 @@ public class PageLogin extends AppCompatActivity implements LoginContract.View, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_login);
         ButterKnife.bind(this);
-        editUsername.setText("suryo.jiwandono@gmail.com");
-        editPassword.setText("123456");
         loginPresenter = new LoginPresenter(this, this);
         btnSubmit.setOnClickListener(this);
     }

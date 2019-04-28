@@ -47,8 +47,8 @@ public class WSLogin {
             public void onSuccess(WSResponseLogin wsResponseLogin) {
                 try {
                     new AsyncUserLogin(activity, dialogLoader, output -> {
-                        dialogLoader.dismiss();
                         onActionLoginListener.onSuccess(wsResponseLogin);
+                        dialogLoader.dismiss();
                     }).execute(wsResponseLogin);
                     isSyncSuccess = true;
                 } catch (Exception e) {
@@ -59,6 +59,7 @@ public class WSLogin {
 
             @Override
             public void onFailed(WSResponseLogin wsResponseLogin) {
+                onActionLoginListener.onSuccess(wsResponseLogin);
                 dialogMessage("Login", wsResponseLogin.result.message == null ? "-" : wsResponseLogin.result.message, null);
             }
 

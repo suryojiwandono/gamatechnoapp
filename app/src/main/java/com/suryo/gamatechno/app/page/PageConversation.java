@@ -60,13 +60,14 @@ public class PageConversation extends AppCompatActivity implements ConversationC
         if (userLogin != null) {
             token = userLogin.token;
             if (MyConnectivity.isConnected(this))
-                conversationPresenter.doGetData("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlIjoiVFJBVkVMTEVSIiwiY29kZSI6IjI0NzA4ZWQ5Y2UxMCIsImlhdCI6MTU1NjE4NDQxOSwiZXhwIjoxNTU3Mzk0MDE5LCJpc3MiOiJsb2NhbGhvc3QifQ.p44i2wikFOxxTkH5mNIagj47jdCtQwHY93fVkfHByuGiYVWBr4R-qBZOMiQvKH87NLpDYdwsoNMbKrbXaP9RVQ", 1);
+                conversationPresenter.doGetData(token, 1);
         }
         fabAdd.setOnClickListener(view -> {
             Intent intent = new Intent(this, PageUsers.class);
             intent.putExtra("token", token);
             startActivity(intent);
         });
+        onLoad();
     }
 
     @Override
@@ -85,11 +86,10 @@ public class PageConversation extends AppCompatActivity implements ConversationC
         if (wsResponseDataConversation != null) {
             if (wsResponseDataConversation.result.status == WSResponseDataConversation._SUCCESS) {
                 isAvailable(true);
-                onLoad();
             } else isAvailable(false);
         }
+        onLoad();
     }
-
 
     private void onLoad() {
         ConversationHelper mUserHelper = new ConversationHelper();
@@ -104,6 +104,7 @@ public class PageConversation extends AppCompatActivity implements ConversationC
             Intent intent = new Intent(this, PageMessage.class);
             intent.putExtra("token", token);
             intent.putExtra("toUserId", tConversations.get(position).userId);
+            intent.putExtra("toUsername", tConversations.get(position).username);
             intent.putExtra("fullname", tConversations.get(position).fullname);
             startActivity(intent);
         }
@@ -111,8 +112,9 @@ public class PageConversation extends AppCompatActivity implements ConversationC
 
     @Override
     public void getDataFailed(WSResponseBad wsResponseBad) {
+        onLoad();
         isAvailable(false);
-        textNoData.setText(wsResponseBad.result.data.reqMessage);
+        textNoData.setText(wsResponseBad != null ? wsResponseBad.result.data.reqMessage : "NO DATA");
     }
 
     @Override

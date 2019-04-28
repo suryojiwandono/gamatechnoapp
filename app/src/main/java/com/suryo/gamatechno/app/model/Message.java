@@ -3,8 +3,13 @@ package com.suryo.gamatechno.app.model;
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 public class Message extends RealmObject {
+
+    @PrimaryKey
+    @Required
     @SerializedName("message_id")
     public String messageId;
     @SerializedName("from_user_id")

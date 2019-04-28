@@ -26,14 +26,14 @@ public class MyApplication extends Application {
                 .schemaVersion(0)
                 .build();
         Realm.setDefaultConfiguration(configuration);
-//        try {
-//            mSocket = IO.socket("https://socket-io-chat.now.sh/");
-//        } catch (URISyntaxException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            mSocket = IO.socket("http://167.99.66.123:2727");
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public Socket getmSocket() {
+    public Socket getSocket() {
         return mSocket;
     }
 }

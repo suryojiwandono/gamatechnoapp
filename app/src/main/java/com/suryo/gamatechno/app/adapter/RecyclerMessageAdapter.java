@@ -58,10 +58,10 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
         if (message.fromUserId.equals(fromUserId)) {
             setGravity(holders, Gravity.END);
-            holders.layoutView.setBackgroundResource(R.drawable.bg_chat);
+            holders.layoutView.setBackgroundResource(R.drawable.bg_chat_own);
         } else {
             setGravity(holders, Gravity.START);
-            holders.layoutView.setBackgroundResource(R.drawable.bg_chat_own);
+            holders.layoutView.setBackgroundResource(R.drawable.bg_chat);
         }
     }
 

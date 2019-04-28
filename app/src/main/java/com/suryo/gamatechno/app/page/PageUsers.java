@@ -17,10 +17,13 @@ import com.suryo.gamatechno.app.connectivity.MyConnectivity;
 import com.suryo.gamatechno.app.connectivity.WSUsers;
 import com.suryo.gamatechno.app.contract.UserContract;
 import com.suryo.gamatechno.app.db.MUserHelper;
+import com.suryo.gamatechno.app.db.UserLoginHelper;
 import com.suryo.gamatechno.app.model.MUser;
+import com.suryo.gamatechno.app.model.UserLogin;
 import com.suryo.gamatechno.app.model.WSResponseBad;
 import com.suryo.gamatechno.app.model.WSResponseDataConversation;
 import com.suryo.gamatechno.app.model.WSResponseDataUser;
+import com.suryo.gamatechno.app.others.Utility;
 import com.suryo.gamatechno.app.presenter.UserPresenter;
 
 import java.util.List;
@@ -45,13 +48,15 @@ public class PageUsers extends AppCompatActivity implements UserContract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_user);
         ButterKnife.bind(this);
-        Bundle extra = getIntent().getExtras();
         userPresenter = new UserPresenter(this, this);
-        if (extra != null) {
-            token = extra.getString("token");
+        UserLoginHelper userLoginHelper = new UserLoginHelper();
+        UserLogin userLogin = userLoginHelper.getUserLogin();
+        if (userLogin != null) {
+            token = userLogin.token;
             if (MyConnectivity.isConnected(this))
-                userPresenter.doGetData("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlIjoiVFJBVkVMTEVSIiwiY29kZSI6IjI0NzA4ZWQ5Y2UxMCIsImlhdCI6MTU1NjE4NDQxOSwiZXhwIjoxNTU3Mzk0MDE5LCJpc3MiOiJsb2NhbGhvc3QifQ.p44i2wikFOxxTkH5mNIagj47jdCtQwHY93fVkfHByuGiYVWBr4R-qBZOMiQvKH87NLpDYdwsoNMbKrbXaP9RVQ", 1);
+                userPresenter.doGetData(token, 1);
         }
+        onLoad();
     }
 
     @Override
@@ -68,9 +73,10 @@ public class PageUsers extends AppCompatActivity implements UserContract.View {
     private Response.OnRecyclerItemClick onRecyclerItemClick = (view, position) -> {
         if (mUsers != null) {
             Intent intent = new Intent(this, PageMessage.class);
-            intent.putExtra("token", token);
             intent.putExtra("toUserId", mUsers.get(position).userId);
+            intent.putExtra("toUsername", mUsers.get(position).username);
             intent.putExtra("fullname", mUsers.get(position).fullname);
+            intent.putExtra("mUser", mUsers.get(position));
             startActivity(intent);
             finish();
         }
@@ -93,7 +99,8 @@ public class PageUsers extends AppCompatActivity implements UserContract.View {
     @Override
     public void getDataFailed(WSResponseBad wsResponseBad) {
         isAvailable(false);
-        textNoData.setText(wsResponseBad.result.data.reqMessage);
+        textNoData.setText(wsResponseBad != null ? wsResponseBad.result.data.reqMessage : "NO DATA");
+        onLoad();
     }
 
     @Override

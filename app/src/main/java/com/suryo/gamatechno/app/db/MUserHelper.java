@@ -9,6 +9,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class MUserHelper {
 
@@ -35,7 +36,7 @@ public class MUserHelper {
 
 
     public List<MUser> getAll() {
-        return mRealm.where(MUser.class).findAll();
+        return mRealm.where(MUser.class).findAll().sort("fullname", Sort.ASCENDING);
     }
 
     public MUser getUserLogin() {
