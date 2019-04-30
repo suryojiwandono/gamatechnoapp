@@ -8,24 +8,15 @@ import android.support.v4.app.NotificationCompat;
 
 public class MyNotification {
     private NotificationCompat.Style style;
-    private String userId;
+    private String messageId;
     private Long timestamp;
-    private Boolean isViews;
 
-    public String getUserId() {
-        return userId;
+    public String getMessageId() {
+        return messageId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public Boolean getViews() {
-        return isViews;
-    }
-
-    public void setViews(Boolean views) {
-        isViews = views;
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
     }
 
     public Long getTimestamp() {

@@ -3,6 +3,7 @@ package com.suryo.gamatechno.app.connectivity;
 import android.app.Activity;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.suryo.gamatechno.app.R;
 import com.suryo.gamatechno.app.adapter.DialogLoader;
 import com.suryo.gamatechno.app.adapter.DialogMessage;
@@ -42,7 +43,7 @@ public class WSMessage {
         apiResponseDataMessage.enqueue(call, new Response.OnWSListenerDataMessage() {
             @Override
             public void onStart() {
-                onActionDataMessageListener.onSuccess(null);
+
             }
 
             @Override
@@ -69,9 +70,13 @@ public class WSMessage {
             @Override
             public void onError(String err) {
                 Gson gson = new Gson();
-                WSResponseBad badRequest = gson.fromJson(err, WSResponseBad.class);
+                try {
+                    WSResponseBad badRequest = gson.fromJson(err, WSResponseBad.class);
 //                dialogMessage(badRequest.result.message, badRequest.result.data.reqMessage, null);
-                onActionDataMessageListener.onFailed(badRequest);
+                    onActionDataMessageListener.onFailed(badRequest);
+                } catch (JsonSyntaxException e) {
+                    onActionDataMessageListener.onFailed(null);
+                }
             }
 
 

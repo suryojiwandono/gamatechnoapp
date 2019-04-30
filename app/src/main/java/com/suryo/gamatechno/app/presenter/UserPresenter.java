@@ -22,7 +22,7 @@ public class UserPresenter implements UserContract.Presenter {
     @Override
     public void doGetData(String token, int page) {
         WSUsers wsUsers = new WSUsers((Activity) context, token);
-        wsUsers.onUsers();
+        wsUsers.onUsers(page);
         wsUsers.setOnResponse(new Response.OnActionDataUserListener() {
             @Override
             public void onSuccess(WSResponseDataUser wsResponseLogin) {

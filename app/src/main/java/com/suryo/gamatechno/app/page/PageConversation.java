@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,7 +21,6 @@ import com.suryo.gamatechno.app.behaviour.Response;
 import com.suryo.gamatechno.app.connectivity.MyConnectivity;
 import com.suryo.gamatechno.app.contract.ConversationContract;
 import com.suryo.gamatechno.app.db.ConversationHelper;
-import com.suryo.gamatechno.app.db.MUserHelper;
 import com.suryo.gamatechno.app.db.UserLoginHelper;
 import com.suryo.gamatechno.app.model.TConversation;
 import com.suryo.gamatechno.app.model.UserLogin;
@@ -40,14 +40,24 @@ public class PageConversation extends AppCompatActivity implements ConversationC
     RecyclerView recyclerView;
     @BindView(R.id.layout_no_data)
     LinearLayout layoutNoData;
+    @BindView(R.id.layout_data)
+    LinearLayout layoutData;
     @BindView(R.id.text_no_data)
     TextView textNoData;
+    @BindView(R.id.text_size)
+    TextView textSize;
+    @BindView(R.id.image_left)
+    ImageView imageLeft;
+    @BindView(R.id.image_right)
+    ImageView imageRight;
     @BindView(R.id.fab_add)
     FloatingActionButton fabAdd;
 
     private String token = "";
     private ConversationPresenter conversationPresenter;
     private List<TConversation> tConversations;
+    private int page = 1;
+    private int total = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +69,38 @@ public class PageConversation extends AppCompatActivity implements ConversationC
         UserLogin userLogin = userLoginHelper.getUserLogin();
         if (userLogin != null) {
             token = userLogin.token;
-            if (MyConnectivity.isConnected(this))
-                conversationPresenter.doGetData(token, 1);
+            getData();
         }
         fabAdd.setOnClickListener(view -> {
             Intent intent = new Intent(this, PageUsers.class);
             intent.putExtra("token", token);
             startActivity(intent);
         });
-        onLoad();
+        imageLeft.setOnClickListener(view -> {
+            if (page > 0) {
+                page--;
+                getData();
+                showHide();
+            }
+        });
+        imageRight.setOnClickListener(view -> {
+            if (page <= total) {
+                page++;
+                getData();
+                showHide();
+            }
+        });
+    }
+
+    private void showHide() {
+        imageRight.setVisibility((page == total) ? View.INVISIBLE : View.VISIBLE);
+        imageLeft.setVisibility((page == 1) ? View.INVISIBLE : View.VISIBLE);
+    }
+
+    private void getData() {
+        if (MyConnectivity.isConnected(this))
+            conversationPresenter.doGetData(token, page);
+        else onLoad();
     }
 
     @Override
@@ -76,17 +109,22 @@ public class PageConversation extends AppCompatActivity implements ConversationC
         onLoad();
     }
 
-    private void isAvailable(boolean isTrue) {
-        layoutNoData.setVisibility(isTrue ? View.GONE : View.VISIBLE);
-        recyclerView.setVisibility(isTrue ? View.VISIBLE : View.GONE);
+    private void isAvailable() {
+        ConversationHelper mUserHelper = new ConversationHelper();
+        List<TConversation> conversations = mUserHelper.getAll();
+        if (conversations != null) {
+            layoutNoData.setVisibility(conversations.size() > 0 ? View.GONE : View.VISIBLE);
+            layoutData.setVisibility(conversations.size() > 0 ? View.VISIBLE : View.GONE);
+        }
     }
 
     @Override
     public void getDataSuccess(WSResponseDataConversation wsResponseDataConversation) {
-        if (wsResponseDataConversation != null) {
-            if (wsResponseDataConversation.result.status == WSResponseDataConversation._SUCCESS) {
-                isAvailable(true);
-            } else isAvailable(false);
+        isAvailable();
+        if ((wsResponseDataConversation != null)) {
+            total = wsResponseDataConversation.result.data.lastPage;
+            String size = String.valueOf(page).concat("/").concat(String.valueOf(total));
+            textSize.setText(size);
         }
         onLoad();
     }
@@ -94,9 +132,13 @@ public class PageConversation extends AppCompatActivity implements ConversationC
     private void onLoad() {
         ConversationHelper mUserHelper = new ConversationHelper();
         tConversations = mUserHelper.getAll();
-        RecyclerConversationAdapter recyclerTaskAdapter = new RecyclerConversationAdapter(PageConversation.this, tConversations, onRecyclerItemClick);
+        RecyclerConversationAdapter recyclerTaskAdapter = new RecyclerConversationAdapter(this, tConversations, onRecyclerItemClick);
         recyclerView.setAdapter(recyclerTaskAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        total = mUserHelper.getSize();
+        String size = String.valueOf(page).concat("/").concat(String.valueOf(total));
+        textSize.setText(size);
+        showHide();
     }
 
     private Response.OnRecyclerItemClick onRecyclerItemClick = (view, position) -> {
@@ -112,9 +154,10 @@ public class PageConversation extends AppCompatActivity implements ConversationC
 
     @Override
     public void getDataFailed(WSResponseBad wsResponseBad) {
-        onLoad();
-        isAvailable(false);
+        Utility.Logs.v(wsResponseBad.result.data.reqMessage + "=======================>");
+        isAvailable();
         textNoData.setText(wsResponseBad != null ? wsResponseBad.result.data.reqMessage : "NO DATA");
+        onLoad();
     }
 
     @Override
@@ -126,24 +169,22 @@ public class PageConversation extends AppCompatActivity implements ConversationC
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_conversation, menu);
+        inflater.inflate(R.menu.menu_sync, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_logout) {
+        if (id == R.id.action_sync) {
             if (MyConnectivity.isConnected(this)) {
                 DialogMessage dialogMessage = new DialogMessage(this);
-                dialogMessage.setTitle("LOGOUT");
-                dialogMessage.setMessage("Do you want to Logout?");
+                dialogMessage.setTitle("SYNC");
+                dialogMessage.setMessage("Do you want to get the data?");
                 dialogMessage.setButtonLeft("No", Constants.ColorButton.BLACK);
                 dialogMessage.setButtonRight("Yes", object -> {
-                    UserLoginHelper userLoginHelper = new UserLoginHelper();
-                    UserLogin userLogin = userLoginHelper.getUserLogin();
-                    userLoginHelper.logout(userLogin.userId, 0);
-                    finish();
+                    getData();
                 }, Constants.ColorButton.BLUE);
                 dialogMessage.show();
             } else Utility.Toast(this, "No Connection");
@@ -151,4 +192,6 @@ public class PageConversation extends AppCompatActivity implements ConversationC
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

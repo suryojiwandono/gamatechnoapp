@@ -4,8 +4,14 @@
     tools:context=".pages.view.ViewInspection">
 
     <item
+        android:id="@+id/action_conversation"
+        android:orderInCategory="1"
+        android:title="CONVERSATION"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_logout"
-        android:orderInCategory="100"
+        android:orderInCategory="2"
         android:title="LOGOUT"
         app:showAsAction="always" />
 

@@ -1,5 +1,6 @@
 package com.suryo.gamatechno.app.others;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
@@ -80,5 +81,14 @@ public class Utility {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    public static boolean isServiceRunning(Context context, String serviceId) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceId.equals(service.service.getClassName()))
+                return true;
+        }
+        return false;
     }
 }

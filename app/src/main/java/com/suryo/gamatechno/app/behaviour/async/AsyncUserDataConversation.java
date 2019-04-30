@@ -16,13 +16,9 @@ import com.suryo.gamatechno.app.others.Utility;
 import java.util.List;
 
 public class AsyncUserDataConversation extends AsyncTask<Object, Object, Object> {
-    private Context context;
-    private DialogLoader dialogLoader;
     private Response.OnAsyncListener onAsyncListener;
 
-    public AsyncUserDataConversation(Context context, DialogLoader dialogLoader, Response.OnAsyncListener onAsyncListener) {
-        this.context = context;
-        this.dialogLoader = dialogLoader;
+    public AsyncUserDataConversation(Response.OnAsyncListener onAsyncListener) {
         this.onAsyncListener = onAsyncListener;
     }
 

@@ -22,7 +22,7 @@ public interface ApiService {
     Call<WSResponseDataConversation> conversations(@Header("token") String token, @Query("page") int page);
 
     @GET("api/list_user")
-    Call<WSResponseDataUser> users(@Header("token") String token, @Query("page") String page);
+    Call<WSResponseDataUser> users(@Header("token") String token, @Query("page") int page);
 
     @GET("api/get_history_message")
     Call<WSResponseDataMessage> historyMessages(@Header("token") String token, @Query("to_user_id") String toUserId, @Query("page") int page);

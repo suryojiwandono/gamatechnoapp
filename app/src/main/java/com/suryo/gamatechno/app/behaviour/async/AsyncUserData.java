@@ -19,13 +19,11 @@ import io.realm.RealmResults;
 import io.realm.exceptions.RealmPrimaryKeyConstraintException;
 
 public class AsyncUserData extends AsyncTask<Object, Object, Object> {
-    private Context context;
-    private DialogLoader dialogLoader;
     private Response.OnAsyncListener onAsyncListener;
+    private int page;
 
-    public AsyncUserData(Context context, DialogLoader dialogLoader, Response.OnAsyncListener onAsyncListener) {
-        this.context = context;
-        this.dialogLoader = dialogLoader;
+    public AsyncUserData(int page, Response.OnAsyncListener onAsyncListener) {
+        this.page = page;
         this.onAsyncListener = onAsyncListener;
     }
 
@@ -34,8 +32,11 @@ public class AsyncUserData extends AsyncTask<Object, Object, Object> {
         WSResponseDataUser wsResponseDataUser = (WSResponseDataUser) params[0];
         List<MUser> mUsers = wsResponseDataUser.result.data.users;
         MUserHelper mUserHelper = new MUserHelper();
-        mUserHelper.delete();
-        for (MUser mUser : mUsers) mUserHelper.save(mUser);
+//        mUserHelper.delete();
+        for (MUser mUser : mUsers) {
+            mUser.page = page;
+            mUserHelper.save(mUser);
+        }
         return null;
     }
 

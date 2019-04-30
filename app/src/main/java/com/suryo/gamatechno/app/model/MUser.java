@@ -33,6 +33,8 @@ public class MUser extends RealmObject implements Parcelable {
     public String distance;
     @SerializedName("user_online")
     public int isOnline;
+    @SerializedName("page")
+    public int page;
 
     public MUser() {
     }

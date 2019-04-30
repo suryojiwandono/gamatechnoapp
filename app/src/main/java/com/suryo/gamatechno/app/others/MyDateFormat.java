@@ -9,10 +9,10 @@ import java.util.Locale;
 
 public class MyDateFormat {
 
-    private static final String[] MONTHS = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
-    private static final String[] MONTHS_SHORT = {"Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"};
-    private static final String[] DAYS = {"", "Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu"};
-    private static final String[] DAYS_SHORT = {"", "Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"};
+    private static final String[] MONTHS = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember" };
+    private static final String[] MONTHS_SHORT = {"Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des" };
+    private static final String[] DAYS = {"", "Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu" };
+    private static final String[] DAYS_SHORT = {"", "Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab" };
 
     private static DateFormatSymbols getLocale() {
         DateFormatSymbols symbols = new DateFormatSymbols();
@@ -74,5 +74,16 @@ public class MyDateFormat {
         public static final String labelDateTimeSecond = "dd MMMM yyyy HH:mm:ss";     // 02 April 2018 10:00:00
         public static final String labelDateTimeMinute = "dd MMMM yyyy HH:mm";      // 02 April 2018 10:00
 
+    }
+
+    public static long dateToLong(String datetime) {
+        SimpleDateFormat f = new SimpleDateFormat(Pattern.databaseDateTime, Locale.US);
+        try {
+            Date d = f.parse(datetime);
+            return d.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

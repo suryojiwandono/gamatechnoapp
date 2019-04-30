@@ -7,6 +7,8 @@ public class Constants {
     public static final String prefixEmail = "_1";
     public static final String http = "http://";
 
+    public static final String REFRESH_MESSAGE = "refresh_message";
+
     public static abstract class ColorButton {
         public static final int BLACK = 1;
         public static final int BLUE = 2;
@@ -23,4 +25,8 @@ public class Constants {
         static final int NOTIF_REPLY = 1000;    // starting (counting)
         static final int NOTIF_MARK = 2000;     // starting (counting)
     }
+
+
+    public static String START_FG_BG_SYNC = "com.suryo.gamatechno.app.startforeground.bg.sync";
+    public static String STOP_FG_BG_SYNC = "com.suryo.gamatechno.app.stopforeground.bg.sync";
 }

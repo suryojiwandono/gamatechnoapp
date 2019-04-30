@@ -2,7 +2,6 @@ package com.suryo.gamatechno.app.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -10,23 +9,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.suryo.gamatechno.app.R;
-import com.suryo.gamatechno.app.model.Message;
+import com.suryo.gamatechno.app.model.Room;
+import com.suryo.gamatechno.app.others.Constants;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RecyclerRoomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
-    private List<Message> messages;
+    private List<Room> messages;
     private String fromUserId;
 
-    public RecyclerMessageAdapter(Context context, List<Message> messages, String fromUserId) {
+    public RecyclerRoomAdapter(Context context, List<Room> messages, String fromUserId) {
         this.context = context;
         this.messages = messages;
         this.fromUserId = fromUserId;
@@ -36,7 +38,7 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.recycler_message, parent, false);
+        View v = inflater.inflate(R.layout.recycler_room, parent, false);
         v.setTag(viewType);
         return new ViewHolderContent(v);
     }
@@ -44,26 +46,38 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolderContent holders = (ViewHolderContent) holder;
-        Message message = messages.get(position);
-        holders.textFullname.setText(message.fromUsername);
-        holders.textMessage.setText(message.messageContent);
+        Room message = messages.get(position);
+        holders.textFullname.setText(message.fromUserName);
+        holders.textMessage.setText(message.fromMessage);
         holders.textTimestamp.setText(message.timestamp);
 
-        if (message.messageStatus.equals("PENDING")) {
-            holders.imageStatus.setImageResource(R.drawable.ic_access_time_black_24dp);
-            holders.imageStatus.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimaryDark), android.graphics.PorterDuff.Mode.SRC_IN);
-        } else {
-            holders.imageStatus.setImageResource(R.drawable.ic_check_black_24dp);
-            holders.imageStatus.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), android.graphics.PorterDuff.Mode.SRC_IN);
-        }
+        String[] temp = message.fromUserPhoto.split(Constants.http);
         if (message.fromUserId.equals(fromUserId)) {
             setGravity(holders, Gravity.END);
             holders.imageStatus.setVisibility(View.VISIBLE);
-            holders.layoutView.setBackgroundResource(R.drawable.bg_chat_own);
+            holders.layoutContent.setBackgroundResource(R.drawable.bg_chat_own);
+            holders.imagePhotoLeft.setVisibility(View.GONE);
+            holders.imagePhotoRight.setVisibility(View.VISIBLE);
+            if (temp.length == 3) {
+                Picasso.get()
+                        .load(Constants.http.concat(temp[2]))
+                        .placeholder(R.drawable.image_animation)
+                        .error(R.drawable.ic_broken_image_black_24dp)
+                        .into(holders.imagePhotoRight);
+            } else holders.imagePhotoRight.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_person_black_48dp));
         } else {
             holders.imageStatus.setVisibility(View.GONE);
             setGravity(holders, Gravity.START);
-            holders.layoutView.setBackgroundResource(R.drawable.bg_chat);
+            holders.layoutContent.setBackgroundResource(R.drawable.bg_chat);
+            holders.imagePhotoRight.setVisibility(View.GONE);
+            holders.imagePhotoLeft.setVisibility(View.VISIBLE);
+            if (temp.length == 3) {
+                Picasso.get()
+                        .load(Constants.http.concat(temp[2]))
+                        .placeholder(R.drawable.image_animation)
+                        .error(R.drawable.ic_broken_image_black_24dp)
+                        .into(holders.imagePhotoLeft);
+            } else holders.imagePhotoLeft.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_person_black_48dp));
         }
     }
 
@@ -96,9 +110,15 @@ public class RecyclerMessageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         @BindView(R.id.layout_main)
         LinearLayout layoutMain;
         @BindView(R.id.layout_view)
-        LinearLayout layoutView;
+        RelativeLayout layoutView;
+        @BindView(R.id.layout_content)
+        LinearLayout layoutContent;
         @BindView(R.id.layout_header)
         LinearLayout layoutHeader;
+        @BindView(R.id.image_photo_left)
+        ImageView imagePhotoLeft;
+        @BindView(R.id.image_photo_right)
+        ImageView imagePhotoRight;
 
         private View itemLayoutView;
 

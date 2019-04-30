@@ -3,6 +3,7 @@ package com.suryo.gamatechno.app.connectivity;
 import android.app.Activity;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.suryo.gamatechno.app.R;
 import com.suryo.gamatechno.app.adapter.DialogLoader;
 import com.suryo.gamatechno.app.adapter.DialogMessage;
@@ -10,7 +11,9 @@ import com.suryo.gamatechno.app.behaviour.Response;
 import com.suryo.gamatechno.app.behaviour.async.AsyncUserDataConversation;
 import com.suryo.gamatechno.app.model.WSResponseBad;
 import com.suryo.gamatechno.app.model.WSResponseDataConversation;
+import com.suryo.gamatechno.app.others.Utility;
 
+import okhttp3.internal.Util;
 import retrofit2.Call;
 
 public class WSConversation {
@@ -41,13 +44,12 @@ public class WSConversation {
         apiResponseDataConversation.enqueue(call, new Response.OnWSListenerDataConversation() {
             @Override
             public void onStart() {
-                onActionDataConversationListener.onSuccess(null);
             }
 
             @Override
             public void onSuccess(WSResponseDataConversation wsResponseDataConversation) {
                 try {
-                    new AsyncUserDataConversation(activity, dialogLoader, output -> {
+                    new AsyncUserDataConversation(output -> {
                         onActionDataConversationListener.onSuccess(wsResponseDataConversation);
                         dialogLoader.dismiss();
                     }).execute(wsResponseDataConversation);
@@ -67,9 +69,13 @@ public class WSConversation {
             @Override
             public void onError(String err) {
                 Gson gson = new Gson();
-                WSResponseBad badRequest = gson.fromJson(err, WSResponseBad.class);
+                try {
+                    WSResponseBad badRequest = gson.fromJson(err, WSResponseBad.class);
 //                dialogMessage(badRequest.result.message, badRequest.result.data.reqMessage, null);
-                onActionDataConversationListener.onFailed(badRequest);
+                    onActionDataConversationListener.onFailed(badRequest);
+                } catch (JsonSyntaxException e) {
+                    onActionDataConversationListener.onFailed(null);
+                }
             }
 
 

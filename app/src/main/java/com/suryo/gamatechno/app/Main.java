@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
 import com.suryo.gamatechno.app.db.UserLoginHelper;
-import com.suryo.gamatechno.app.page.PageConversation;
 import com.suryo.gamatechno.app.page.PageLogin;
+import com.suryo.gamatechno.app.page.PageRoom;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,7 +24,7 @@ public class Main extends AppCompatActivity {
 
         UserLoginHelper userLoginHelper = new UserLoginHelper();
         boolean isLogin = userLoginHelper.isLogin();
-        startActivity(new Intent(this, isLogin ? PageConversation.class : PageLogin.class));
+        startActivity(new Intent(this, isLogin ? PageRoom.class : PageLogin.class));
         finish();
     }
 }

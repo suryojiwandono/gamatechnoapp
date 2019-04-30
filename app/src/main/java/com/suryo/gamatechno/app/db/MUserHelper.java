@@ -35,12 +35,22 @@ public class MUserHelper {
     }
 
 
+    public List<MUser> getAll(int page) {
+        return mRealm.where(MUser.class).equalTo("page", page).findAll().sort("fullname", Sort.ASCENDING);
+    }
+
     public List<MUser> getAll() {
         return mRealm.where(MUser.class).findAll().sort("fullname", Sort.ASCENDING);
     }
 
-    public MUser getUserLogin() {
+    public MUser getuser() {
         return mRealm.where(MUser.class).findFirst();
+    }
+
+    public int getSize() {
+        if (getAll().size() > 0)
+            return mRealm.where(MUser.class).max("page").intValue();
+        else return 0;
     }
 
     public void delete() {

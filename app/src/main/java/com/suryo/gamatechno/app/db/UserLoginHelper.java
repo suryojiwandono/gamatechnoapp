@@ -56,8 +56,8 @@ public class UserLoginHelper {
     }
 
     public boolean isLogin() {
-        RealmResults<UserLogin> results = mRealm.where(UserLogin.class).equalTo("status", 1).findAll();
-        return (results.size() > 0);
+        UserLogin results = mRealm.where(UserLogin.class).equalTo("status", 1).findFirst();
+        return (results != null);
     }
 
     public void filter(String property, int value, String propertyShort, Response response) {

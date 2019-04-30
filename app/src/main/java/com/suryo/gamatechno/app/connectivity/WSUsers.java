@@ -3,6 +3,7 @@ package com.suryo.gamatechno.app.connectivity;
 import android.app.Activity;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.suryo.gamatechno.app.R;
 import com.suryo.gamatechno.app.adapter.DialogLoader;
 import com.suryo.gamatechno.app.adapter.DialogMessage;
@@ -34,20 +35,20 @@ public class WSUsers {
         this.onActionDataUserListener = onActionDataConversationListener;
     }
 
-    public void onUsers() {
+    public void onUsers(int page) {
         dialogLoader.show();
-        Call<WSResponseDataUser> call = apiService.users(token, "1");
+        Call<WSResponseDataUser> call = apiService.users(token, page);
         final ApiResponseDataUser apiResponseDataConversation = new ApiResponseDataUser(activity);
         apiResponseDataConversation.enqueue(call, new Response.OnWSListenerDataUser() {
             @Override
             public void onStart() {
-                onActionDataUserListener.onSuccess(null);
+
             }
 
             @Override
             public void onSuccess(WSResponseDataUser wsResponseDataUser) {
                 try {
-                    new AsyncUserData(activity, dialogLoader, output -> {
+                    new AsyncUserData(page, output -> {
                         onActionDataUserListener.onSuccess(wsResponseDataUser);
                         dialogLoader.dismiss();
                     }).execute(wsResponseDataUser);
@@ -67,9 +68,13 @@ public class WSUsers {
             @Override
             public void onError(String err) {
                 Gson gson = new Gson();
+                try {
                 WSResponseBad badRequest = gson.fromJson(err, WSResponseBad.class);
                 dialogMessage(badRequest.result.message, badRequest.result.data.reqMessage, null);
                 onActionDataUserListener.onFailed(badRequest);
+                } catch (JsonSyntaxException e) {
+                    onActionDataUserListener.onFailed(null);
+                }
             }
 
 

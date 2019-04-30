@@ -1,5 +1,6 @@
 package com.suryo.gamatechno.app.db;
 
+import com.suryo.gamatechno.app.model.MUser;
 import com.suryo.gamatechno.app.model.Message;
 import com.suryo.gamatechno.app.model.TConversation;
 import com.suryo.gamatechno.app.model.UserLogin;
@@ -18,6 +19,12 @@ public class MessageHelper {
 
     interface Response {
         void result(RealmResults<Message> data);
+    }
+
+    public int getSize() {
+        if (getAll().size() > 0)
+            return mRealm.where(Message.class).max("page").intValue();
+        else return 0;
     }
 
     public MessageHelper() {
@@ -39,6 +46,11 @@ public class MessageHelper {
     public List<Message> getAll(String toUserId) {
         return mRealm.where(Message.class)
                 .equalTo("toUserId", toUserId)
+                .findAll().sort("timestamp", Sort.ASCENDING);
+    }
+
+    public List<Message> getAll() {
+        return mRealm.where(Message.class)
                 .findAll().sort("timestamp", Sort.ASCENDING);
     }
 

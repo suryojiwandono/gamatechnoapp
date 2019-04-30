@@ -35,7 +35,11 @@ public class ConversationHelper {
         });
     }
 
-
+    public int getSize() {
+        if (getAll().size() > 0)
+            return mRealm.where(TConversation.class).max("page").intValue();
+        else return 0;
+    }
     public List<TConversation> getAll() {
         return mRealm.where(TConversation.class).findAll().sort("timestamp", Sort.DESCENDING);
     }

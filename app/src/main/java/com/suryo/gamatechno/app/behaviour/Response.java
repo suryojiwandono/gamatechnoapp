@@ -94,5 +94,7 @@ public class Response {
     public interface OnRecyclerItemClick {
         void onClick(View view, int position);
     }
-
+    public interface OnReceiverAction {
+        void onRefresh(Object object);
+    }
 }

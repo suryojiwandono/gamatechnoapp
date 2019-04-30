@@ -9,11 +9,11 @@ import android.widget.EditText;
 
 import com.suryo.gamatechno.app.R;
 import com.suryo.gamatechno.app.connectivity.MyConnectivity;
-import com.suryo.gamatechno.app.presenter.LoginPresenter;
 import com.suryo.gamatechno.app.contract.LoginContract;
 import com.suryo.gamatechno.app.model.WSResponseBad;
 import com.suryo.gamatechno.app.model.WSResponseLogin;
 import com.suryo.gamatechno.app.others.Utility;
+import com.suryo.gamatechno.app.presenter.LoginPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,7 +71,7 @@ public class PageLogin extends AppCompatActivity implements LoginContract.View, 
     @Override
     public void loginSuccess(WSResponseLogin wsResponseLogin) {
         setLoginProcess(true);
-        Intent intent = new Intent(this, PageConversation.class);
+        Intent intent = new Intent(this, PageRoom.class);
         intent.putExtra("token", wsResponseLogin.result.data.token);
         startActivity(intent);
         finish();

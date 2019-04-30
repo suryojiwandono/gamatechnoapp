@@ -6,7 +6,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
-public class Message extends RealmObject {
+public class Room extends RealmObject {
 
     @PrimaryKey
     @Required
@@ -14,20 +14,20 @@ public class Message extends RealmObject {
     public String messageId;
     @SerializedName("from_user_id")
     public String fromUserId;
+    @SerializedName("from_user_email")
+    public String fromUserEmail;
+    @SerializedName("from_user_name")
+    public String fromUserName;
+    @SerializedName("from_user_photo")
+    public String fromUserPhoto;
+    @SerializedName("from_message")
+    public String fromMessage;
     @SerializedName("to_user_id")
     public String toUserId;
-    @SerializedName("from_user_name")
-    public String fromUsername;
-    @SerializedName("to_user_name")
-    public String toUsername;
-    @SerializedName("message_content")
-    public String messageContent;
-    @SerializedName("status")
-    public String status;
-    @SerializedName("message_status")
-    public String messageStatus;
     @SerializedName("timestamp")
     public String timestamp;
-    @SerializedName("page")
-    public int page;
+    @SerializedName("header_id")
+    public String headerId;
+    @SerializedName("is_read")
+    public boolean isRead;
 }

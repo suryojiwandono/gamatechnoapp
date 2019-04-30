@@ -28,4 +28,6 @@ public class TConversation extends RealmObject {
     public String timestamp;
     @SerializedName("is_online")
     public int isOnline;
+    @SerializedName("page")
+    public int page;
 }

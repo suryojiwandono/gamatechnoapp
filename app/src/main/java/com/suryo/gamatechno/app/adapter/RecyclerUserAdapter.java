@@ -59,7 +59,8 @@ public class RecyclerUserAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     .placeholder(R.drawable.image_animation)
                     .error(R.drawable.ic_broken_image_black_24dp)
                     .into(holders.imagePhoto);
-        }
+        } else holders.imagePhoto.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_person_black_48dp));
+
 
         Picasso.get()
                 .load(mUser.flag)
